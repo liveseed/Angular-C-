@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30128.74
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularDotNetProject.API", "AngularDotNetProject\AngularDotNetProject.API.csproj", "{651B3B7F-3FE9-4B2D-88B2-727FE8C3E7E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularDotNetProject.Domain", "AngularDotNetProject.Domain\AngularDotNetProject.Domain.csproj", "{12B3DC74-4FBA-4D24-B939-6FD4A55FC279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularDotNetProject.Repository", "AngularDotNetProject.Repository\AngularDotNetProject.Repository.csproj", "{324B8910-15C1-4CDA-96D6-5E26177EA236}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{651B3B7F-3FE9-4B2D-88B2-727FE8C3E7E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651B3B7F-3FE9-4B2D-88B2-727FE8C3E7E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651B3B7F-3FE9-4B2D-88B2-727FE8C3E7E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651B3B7F-3FE9-4B2D-88B2-727FE8C3E7E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12B3DC74-4FBA-4D24-B939-6FD4A55FC279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12B3DC74-4FBA-4D24-B939-6FD4A55FC279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12B3DC74-4FBA-4D24-B939-6FD4A55FC279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12B3DC74-4FBA-4D24-B939-6FD4A55FC279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{324B8910-15C1-4CDA-96D6-5E26177EA236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{324B8910-15C1-4CDA-96D6-5E26177EA236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{324B8910-15C1-4CDA-96D6-5E26177EA236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{324B8910-15C1-4CDA-96D6-5E26177EA236}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52BC58CD-59D3-47A6-9E59-C914834CEA96}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,65 @@
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <label class="mr-2">Search:</label>
+    <input type="text"
+      class="form-control mr-2"
+      placeholder="Search"
+      [(ngModel)]="filterList">    
+     
+  </div>
+</div>
+<h3>Filter: {{filterList}}</h3>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        <button class="btn btn-outline-primary"
+        (click)="showImage()">          
+          Image
+        </button>
+      </th>
+      <th>#</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Date</th>      
+      <th>Location</th>
+      <th>Capacity</th>
+      <th>Release</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="events && events.length">
+    <tr *ngFor="let event of filteredEvents">      
+      <td>
+        <img *ngIf="imageOnOff"
+         src="http://desktop-2:5002/img/{{event.imagemUrl}}"               
+        [style.width.px]="imageWidth"
+        [style.margin.px]="imageMargin">
+      </td> 
+      <td>{{event.eventId}}</td> 
+      <td>{{event.name}}</td>
+      <td>{{event.type}}</td>
+      <td>{{event.eventDate}}</td>
+      <td>{{event.location}}</td>
+      <td>{{event.capacity}}</td>
+      <td>{{event.release | uppercase}}</td>
+      <td>
+        <button class="class btn btn-success"></button>
+        <button class="class btn btn-danger"></button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!events.length">
+    <tr>
+      <td colspan="7" class="text-center">
+        <h4>
+          No events found!
+        </h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>  
+
+
+
+
