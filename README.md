@@ -11,6 +11,7 @@ To build this App and Web Api solution I used Entity Framework with Migration to
 ## Technologies used
 
 * [ASP.NET CORE REST API](https://dotnet.microsoft.com/apps/aspnet/apis). 
+* [Angular 9](https://angular.io/). 
 * [Migrations Entity Framework](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli). 
 * [Swagger](https://swagger.io/about/). 
 * [JWT](https://jwt.io/). 
