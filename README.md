@@ -30,16 +30,20 @@ To build this App and Web Api solution I used Entity Framework with Migration to
 - [ ] Implement Swagger
 - [x] Datebase (SQLExpress)
 
+| Get | Post | Put | Delete
+:------------ | :-------------| :-------------| :-------------
+:heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+
 ### Front-End
 - [x] Create Basic Angular App 
-- [x] Create Nav structure
+- [:construction_worker:] Create Nav structure 
 - [x] Create Models
-- [x] Create Services 
+- [:construction_worker:] Create Services 
 - [ ] Register / Login (jwt)
 
 | Get | Post | Put | Delete
 :------------ | :-------------| :-------------| :-------------
-:heavy_check_mark: | :heavy_check_mark: | :white_check_mark: | :white_check_mark:
+:heavy_check_mark: | :heavy_check_mark: | :construction_worker: | :construction_worker:
 
 
 
