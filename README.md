@@ -36,9 +36,9 @@ To build this App and Web Api solution I used Entity Framework with Migration to
 
 ### Front-End
 - [x] Create Basic Angular App 
-- [:construction_worker:] Create Nav structure 
+- [ ] Create Nav structure / Functions 
 - [x] Create Models
-- [:construction_worker:] Create Services 
+- [ ] Create Services 
 - [ ] Register / Login (jwt)
 
 | Get | Post | Put | Delete
