@@ -35,7 +35,7 @@ namespace AngularDotNetProject.API.Controllers
             }
         }
 
-        [HttpGet("getByName/{headline}")]
+        [HttpGet("getByName/{Name}")]
         public async Task<IActionResult> Get(string name)
         {
             try

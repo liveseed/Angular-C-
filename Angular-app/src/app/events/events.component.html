@@ -1,11 +1,15 @@
-<div class="form-inline">
-  <div class="form-group mb-2">
-    <label class="mr-2">Search:</label>
-    <input type="text"
-      class="form-control mr-2"
-      placeholder="Search"
-      [(ngModel)]="filterList">    
-     
+<div class="d-flex"> 
+  <div class="form-inline mr-auto">
+    <div class="form-group mb-2">
+      <label class="mr-2">Search:</label>
+      <input type="text" class="form-control mr-2" placeholder="Search" [(ngModel)]="filterList">         
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-primary" (click)="newEvent(templateModal)">
+    <i class="fa fa-plus-circle"></i>&nbsp;
+    New Event
+    </button>    
   </div>
 </div>
 <h3>Filter: {{filterList}}</h3>
@@ -15,7 +19,7 @@
       <th>
         <button class="btn btn-outline-primary"
         (click)="showImage()">          
-          Image
+        <i class="{{showImage ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i>
         </button>
       </th>
       <th>#</th>
@@ -29,27 +33,42 @@
     </tr>
   </thead>
   <tbody *ngIf="events && events.length">
-    <tr *ngFor="let event of filteredEvents">      
+    <tr *ngFor="let event of filteredEvents">            
       <td>
         <img *ngIf="imageOnOff"
-         src="http://desktop-2:5002/img/{{event.imagemUrl}}"               
+         src="http://desktop-2:5002/img/{{event.imageURL}}"               
         [style.width.px]="imageWidth"
         [style.margin.px]="imageMargin">
       </td> 
       <td>{{event.eventId}}</td> 
       <td>{{event.name}}</td>
       <td>{{event.type}}</td>
-      <td>{{event.eventDate}}</td>
+      <td>{{event.eventDate | DateTimeFormatPipe}}</td>
       <td>{{event.location}}</td>
       <td>{{event.capacity}}</td>
-      <td>{{event.release | uppercase}}</td>
-      <td>
-        <button class="class btn btn-success"></button>
-        <button class="class btn btn-danger"></button>
+      <td>         
+        <div *ngIf="event.releases?.length == 0">
+          Not Available
+        </div>
+        <div *ngIf="event.releases?.length > 0">
+          {{event.releases[0].name | json}} 
+        </div> 
       </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-success" 
+          tooltip="Edit" (click)="editEvent(event, templateModal)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" tooltip="Remove"
+           (click)="deleteEvent(event, templateDeleteEvent)">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
+      </td>      
     </tr>
   </tbody>
-  <tfoot *ngIf="!events.length">
+  <tfoot *ngIf="events?.length == 0">
     <tr>
       <td colspan="7" class="text-center">
         <h4>
@@ -60,6 +79,161 @@
   </tfoot>
 </table>  
 
-
+<!--Large modal - named:templateModal -->
+<div bsModal #templateModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="close pull-right" (click)="templateModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm" >
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Type</label>
+              <input type="text" class="form-control" 
+              [ngClass]="{'is-invalid': registerForm.get('type').errors && registerForm.get('type').touched}"
+              placeholder="Insert Type" formControlName="type">
+              <div *ngIf="registerForm.get('type').hasError('required')
+              && registerForm.get('type').touched" class="invalid-feedback">
+              Type is mandatory.
+              </div>
+              <div *ngIf="registerForm.get('type').hasError('minlength')
+               && registerForm.get('type').touched" class="invalid-feedback">
+              Must have minimum 4 characteres.
+              </div>
+              <div *ngIf="registerForm.get('type').hasError('maxlength')
+               && registerForm.get('type').touched" class="invalid-feedback">
+              Must have maximum 50 characteres
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <label>Name</label>
+              <input type="text" class="form-control" placeholder="Insert Name" formControlName="name"
+              [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}">
+              <div *ngIf="registerForm.get('name').hasError('required') 
+               && registerForm.get('name').touched"   class="invalid-feedback">        
+              Name is mandatory.
+              </div>
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label>Location</label>
+              <input type="text" class="form-control" placeholder="Insert Location" formControlName="location"
+              [ngClass]="{'is-invalid': registerForm.get('location').errors && registerForm.get('location').touched}">
+              <div *ngIf="registerForm.get('location').hasError('required') 
+               && registerForm.get('location').touched" class="invalid-feedback">
+                Location is mandatory.
+              </div>      
+            </div>
+            <div class="form-group col-md-4">
+              <label>Date/Time</label>
+              <input type="text" class="form-control" placeholder="Insert Date/Time" formControlName="eventDate"
+              bsDatepicker      
+              [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm a' }"
+              [ngClass]="{'is-invalid': registerForm.get('eventDate').errors && registerForm.get('eventDate').touched}">
+              <div *ngIf="registerForm.get('eventDate').hasError('required') 
+               && registerForm.get('eventDate').touched" class="invalid-feedback">
+                Date/Time is mandatory.
+              </div>
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Capacity</label>
+              <input type="number" class="form-control" placeholder="Insert Capacity" formControlName="capacity"
+               [ngClass]="{'is-invalid': registerForm.get('capacity').errors && registerForm.get('capacity').touched}">
+              <div *ngIf="registerForm.get('capacity').hasError('required')
+               && registerForm.get('capacity').touched" class="invalid-feedback">
+               Capacity is mandatory.
+              </div>
+              <div *ngIf="registerForm.get('location').hasError('max') 
+               && registerForm.get('location').touched" class="invalid-feedback">
+                Must have maximum 10.
+              </div>
+            </div>
+            <div class="form-group col-md-9">
+              <label>Image</label>
+              <input type="text" class="form-control" placeholder="Insert Image" formControlName="imageURL"
+               [ngClass]="{'is-invalid': registerForm.get('imageURL').errors && registerForm.get('imageURL').touched}">
+              <div *ngIf="registerForm.get('imageURL').hasError('required') 
+               && registerForm.get('imageURL').touched" class="invalid-feedback">
+                Image is mandatory.
+              </div>
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Phone</label>
+              <input type="text" class="form-control is-invalid" placeholder="Insert Phone" formControlName="phone"
+                [ngClass]="{'is-invalid': registerForm.get('phone').errors && registerForm.get('phone').touched}">
+              <div *ngIf="registerForm.get('phone').hasError('required') 
+                && registerForm.get('phone').touched" class="invalid-feedback">
+                Phone is mandatory.
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <label>E-mail</label>
+              <input type="text" class="form-control is-invalid" placeholder="Insert E-mail" formControlName="email"
+                [ngClass]="{'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched}">
+              <div *ngIf="registerForm.get('email').hasError('required') 
+                && registerForm.get('email').touched" class="invalid-feedback">
+                E-mail is mandatory.
+              </div>
+              <div *ngIf="registerForm.get('email').hasError('email') 
+                && registerForm.get('email').touched" class="invalid-feedback">
+                Must be a valid e-mail. 
+              </div>
+            </div>
+          </div>  
+        </form>
+        <br>
+        <br>
+        <br>
+        <p>Form Value: {{registerForm.value | json}} </p>
+        <p>Form Value: {{registerForm.status | json}} </p>        
+      </div>
+      <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="templateModal.hide()">
+          Close
+        </button>
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="cofirmSaveEvent(templateModal)">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div bsModal #templateDeleteEvent="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+	<div class="modal-dialog modal-sm">
+  		<div class="modal-content">
+    		<div class="modal-header">
+      			<h4 class="modal-title pull-left">
+        			Deletando Evento
+      			</h4>
+      			<button type="button" class="close pull-right" (click)="templateDeleteEvent.hide()" aria-label="Close">
+        			<span aria-hidden="true">&times;</span>
+      			</button>
+    		</div>
+    		<div class="modal-body">
+      			<p>{{bodyDeleteEvent}}</p>
+    		</div>    
+    		<div class="modal-footer btn-group d-flex">      
+      			<button type="button" class="btn btn-outline-primary" (click)="templateDeleteEvent.hide()">
+        			CENCELAR
+      			</button>
+      			<button type="button" class="btn btn-outline-danger" (click)="confirmDeleteEvent(templateDeleteEvent)">
+          			DELETAR
+        		</button>
+    		</div>
+  		</div>
+	</div>
+</div>
 
 

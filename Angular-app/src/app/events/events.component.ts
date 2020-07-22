@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { EventService } from '../_services/Event.service';
+import { Event } from '../_models/Event';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+
+
+defineLocale('pt-br', ptBrLocale)
 
 @Component({
   selector: 'app-events',
@@ -8,32 +16,54 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class EventsComponent implements OnInit {
-
-  constructor(private http: HttpClient) {}
-
-  filteredEvents: any = [];
-  events: any = [];
+  
   imageWidth = 50;
   imageMargin = 2;
   imageOnOff = true;  
+  
+  saveOption = 'post';
+  bodyDeleteEvent = '';
+  _filterList: string = '';  
 
-  _filterList = '';
+  filteredEvents: Event[];
+  events: Event[];
+  event: Event;
+  
+  modalRef: BsModalRef;  
+  registerForm: FormGroup;
+  
   get filterList(): string{
     return this._filterList;
   }
   set filterList(value: string){
     this._filterList = value;
     this.filteredEvents = this.filterList ? this.filterEvents(this.filterList) : this.events;
-  }  
+  }    
+
+  constructor(
+    private eventService: EventService,
+    private modalService: BsModalService,
+    private formBuilder: FormBuilder,
+    private localService: BsLocaleService
+    ) {
+      this.localService.use('pt-br')
+  }
 
   ngOnInit() {
+    this.validation();
     this.getEvents();
   }
 
-  filterEvents(filterBy: string): any {
+  openModal(templateModal: any){
+    this.registerForm.reset();
+    templateModal.show();
+  }
+
+  filterEvents(filterBy: string): Event[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.events.filter(
       event => event.name.toLocaleLowerCase().indexOf(filterBy) !== -1
+      
     );
   }
 
@@ -42,11 +72,82 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents(){
-    this.http.get('http://DESKTOP-2:5002/api/values').subscribe(response => {
-      this.events = response;
-      console.log(response);      
-    }), error => {
+    this.eventService.getEventAll().subscribe(
+      (_events: Event[]) => {
+      this.events = _events;
+      this.filteredEvents = this.events;      
+      console.log(_events);
+    }, error => {
       console.log(error);
-    }
+    });
   }
+
+  newEvent(templateModal: any){
+    this.saveOption = 'post';
+    this.openModal(templateModal);
+  }
+
+  editEvent(event: Event, template: any){
+    this.saveOption = 'put';
+    this.openModal(template);
+    this.event = event;
+    this.registerForm.patchValue(event);
+  }
+
+  deleteEvent(event: Event, template: any){
+    this.openModal(template);
+    this.event = event;
+    this.bodyDeleteEvent = `Confirm delete Event: ${event.name}, Cod: ${event.eventId}`; 
+  }  
+
+  confirmDeleteEvent(template: any){
+    this.eventService.deleteEvent(this.event.eventId).subscribe(
+      () => {
+        template.hide();
+        this.getEvents();        
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  cofirmSaveEvent(templateModal: any)  {
+    if (this.registerForm.valid) {
+      if (this.saveOption === 'post'){
+        this.event = Object.assign({}, this.registerForm.value);
+        this.eventService.postEvent(this.event).subscribe(
+          (newEvent: Event) => {            
+            templateModal.hide();
+            this.getEvents();          
+          }, error => {
+            console.log(error)
+          }
+        )
+      } else {
+        this.event = Object.assign({eventId: this.event.eventId}, this.registerForm.value);
+        this.eventService.putEvent(this.event).subscribe(
+          () => {          
+            templateModal.hide();
+            this.getEvents();          
+          }, error => {
+            console.log(error)
+          }
+        )
+      }     
+    } 
+  }
+
+  validation()  {
+    this.registerForm = this.formBuilder.group ({
+      type: ['',[Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      name: ['',[Validators.required]],
+      location: ['',[Validators.required ]],
+      eventDate: ['',[Validators.required ]],
+      imageURL: ['',[Validators.required ]],
+      capacity: ['',[Validators.required, Validators.max(10000)]],
+      phone: ['',[Validators.required ]],
+      email: ['',[Validators.required, Validators.email]]
+    });
+  }
+
 }
