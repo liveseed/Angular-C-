@@ -22,29 +22,38 @@ To build this App and Web Api solution I used Entity Framework with Migration to
 ## Road Map 
 
 ### Back-End
-- [x] Create Basic Api
-- [x] Create Controlers
-- [x] Create Domains
-- [ ] Create Services 
-- [x] Create Respositories
+- [x] Basic Rest Api Structure 
+- [x] Controlers
+- [x] Domains
+- [x] Services 
+- [x] Respositories
+- [x] Datebase (SQLExpress)
 - [ ] Register / Loging (JWT)
 - [ ] Implement Swagger
-- [x] Datebase (SQLExpress)
+- [ ] AutoMapper & DTO Data Annotations
 
-| Get | Post | Put | Delete
-:------------ | :-------------| :-------------| :-------------
-:heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+| Services / Repository | Get | Post | Put | Delete
+:------------ | :-------------| :-------------| :-------------| :-------------
+|Event |:heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+|Headline |:construction_worker: | :construction_worker: | :construction_worker: | :construction_worker:
+|Release |:construction_worker: | :construction_worker: | :construction_worker: | :construction_worker:
+|SocialNetwork |:construction_worker: | :construction_worker: | :construction_worker: | :construction_worker:
+
 
 ### Front-End
-- [x] Create Basic Angular App 
-- [ ] Create Nav structure / Functions 
-- [x] Create Models
-- [ ] Create Services 
+- [x] Basic Angular App structure
+- [x] Nav structure   
+- [x] Models
+- [ ] Services 
 - [ ] Register / Login (jwt)
 
-| Get | Post | Put | Delete
-:------------ | :-------------| :-------------| :-------------
-:heavy_check_mark: | :heavy_check_mark: | :construction_worker: | :construction_worker:
+
+| Services | Get | Post | Put | Delete
+:------------ | :-------------| :-------------| :-------------| :-------------
+|Event |:heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+|Headline |:construction_worker: | :construction_worker: | :construction_worker: | :construction_worker:
+|Release |:construction_worker: | :construction_worker: | :construction_worker: | :construction_worker:
+|SocialNetwork |:construction_worker: | :construction_worker: | :construction_worker: | :construction_worker:
 
 ## Installation
 
