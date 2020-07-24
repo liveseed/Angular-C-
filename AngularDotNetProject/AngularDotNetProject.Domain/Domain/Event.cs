@@ -9,15 +9,15 @@ namespace AngularDotNetProject.Domain.Domain
     public class Event
     {
         [Key]
-        public int EventId { get; set; }
-        public string Location { get; set; }
-        public DateTime? EventDate { get; set; }
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public int Capacity { get; set; }
-        public string ImageURL { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
+        public int EventId { get; private set; }
+        public string Location { get; private set; }
+        public DateTime? EventDate { get; private set; }
+        public string Type { get; private set; }
+        public string Name { get; private set; }
+        public int Capacity { get; private set; }
+        public string ImageURL { get; private set; }
+        public string Phone { get; private set; }
+        public string Email { get; private set; }
         public List<Release> Releases { get; set; }
         public List<SocialNetwork> SocialNetworks { get; set; }
         public List<HeadlineEvent> HeadlineEvents { get; set; }

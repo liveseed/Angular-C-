@@ -47,7 +47,7 @@ namespace AngularDotNetProject.Repository.Repository
                     .ThenInclude(h => h.Headline);
             }
 
-            query = query.OrderByDescending(e => e.EventDate);
+            query = query.OrderBy(e => e.EventId);
 
             return await query.ToArrayAsync();
 

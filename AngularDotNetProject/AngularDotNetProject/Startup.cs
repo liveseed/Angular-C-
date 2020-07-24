@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AngularDotNetProject.Repository.Repository;
-    
+using AutoMapper;
 
 namespace AngularDotNetProject.API
 {
@@ -32,6 +32,8 @@ namespace AngularDotNetProject.API
 
             services.AddScoped<ITestConnection,TestConnection>();
             services.AddScoped<IRepository, Repository.Repository.Repository>();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddCors();
