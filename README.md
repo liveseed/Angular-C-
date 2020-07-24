@@ -30,7 +30,7 @@ To build this App and Web Api solution I used Entity Framework with Migration to
 - [x] Datebase (SQLExpress)
 - [ ] Register / Loging (JWT)
 - [ ] Implement Swagger
-- [ ] AutoMapper & DTO Data Annotations
+- [x] AutoMapper & DTO Data Annotations
 
 | Services / Repository | Get | Post | Put | Delete
 :------------ | :-------------| :-------------| :-------------| :-------------
