@@ -1,3 +1,4 @@
+<app-title [title]="title"></app-title>
 <div class="d-flex"> 
   <div class="form-inline mr-auto">
     <div class="form-group mb-2">
@@ -43,7 +44,7 @@
       <td>{{event.eventId}}</td> 
       <td>{{event.name}}</td>
       <td>{{event.type}}</td>
-      <td>{{event.eventDate | DateTimeFormatPipe}}</td>
+      <td>{{event.eventDate }}</td>
       <td>{{event.location}}</td>
       <td>{{event.capacity}}</td>
       <td>         
@@ -134,8 +135,9 @@
             <div class="form-group col-md-4">
               <label>Date/Time</label>
               <input type="text" class="form-control" placeholder="Insert Date/Time" formControlName="eventDate"
-              bsDatepicker      
-              [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm a' }"
+              bsDatepicker 
+              
+              [bsConfig]="{ dateInputFormat : 'DD/MM/YYYY hh:mm'}"
               [ngClass]="{'is-invalid': registerForm.get('eventDate').errors && registerForm.get('eventDate').touched}">
               <div *ngIf="registerForm.get('eventDate').hasError('required') 
                && registerForm.get('eventDate').touched" class="invalid-feedback">
@@ -176,6 +178,10 @@
                 && registerForm.get('phone').touched" class="invalid-feedback">
                 Phone is mandatory.
               </div>
+              <div *ngIf="registerForm.get('phone').hasError('pattern') 
+                && registerForm.get('phone').touched" class="invalid-feedback">
+                This Number is invalid format. 
+              </div> 
             </div>
             <div class="form-group col-md-8">
               <label>E-mail</label>

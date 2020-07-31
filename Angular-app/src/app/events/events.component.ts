@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { ToastrService } from 'ngx-toastr';
 
 
 defineLocale('pt-br', ptBrLocale)
@@ -21,6 +22,7 @@ export class EventsComponent implements OnInit {
   imageMargin = 2;
   imageOnOff = true;  
   
+  title = 'Events';
   saveOption = 'post';
   bodyDeleteEvent = '';
   _filterList: string = '';  
@@ -44,8 +46,9 @@ export class EventsComponent implements OnInit {
     private eventService: EventService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
-    private localService: BsLocaleService
-    ) {
+    private localService: BsLocaleService,
+    private toastr: ToastrService
+  ) {
       this.localService.use('pt-br')
   }
 
@@ -76,9 +79,9 @@ export class EventsComponent implements OnInit {
       (_events: Event[]) => {
       this.events = _events;
       this.filteredEvents = this.events;      
-      console.log(_events);
+      
     }, error => {
-      console.log(error);
+      this.toastr.error(`Error loading the events: ${error}`);    
     });
   }
 
@@ -104,8 +107,10 @@ export class EventsComponent implements OnInit {
     this.eventService.deleteEvent(this.event.eventId).subscribe(
       () => {
         template.hide();
-        this.getEvents();        
+        this.getEvents();    
+        this.toastr.success('Deleted Successfully');    
       }, error => {
+        this.toastr.error(`Error Deleting: ${error}`);    
         console.log(error);
       }
     );
@@ -119,7 +124,9 @@ export class EventsComponent implements OnInit {
           (newEvent: Event) => {            
             templateModal.hide();
             this.getEvents();          
+            this.toastr.success('Created Successfully');    
           }, error => {
+            this.toastr.error(`Error Creating: ${error}`);    
             console.log(error)
           }
         )
@@ -129,7 +136,9 @@ export class EventsComponent implements OnInit {
           () => {          
             templateModal.hide();
             this.getEvents();          
+            this.toastr.success('Edited Successfully');    
           }, error => {
+            this.toastr.error(`Error Editing: ${error}`);    
             console.log(error)
           }
         )
@@ -145,9 +154,20 @@ export class EventsComponent implements OnInit {
       eventDate: ['',[Validators.required ]],
       imageURL: ['',[Validators.required ]],
       capacity: ['',[Validators.required, Validators.max(10000)]],
-      phone: ['',[Validators.required ]],
+      phone: ['',[Validators.required , Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       email: ['',[Validators.required, Validators.email]]
     });
   }
+  
+  myDateParser(dateStr : string) : string {
+    // 2018-01-01T12:12:12.123456; - converting valid date format like this
 
+    let date = dateStr.substring(0, 10);
+    let time = dateStr.substring(11, 19);
+    let millisecond = dateStr.substring(20)
+
+    let validDate = date + 'T' + time + '.' + millisecond;
+    console.log(validDate)
+    return validDate
+  }
 }

@@ -24,7 +24,8 @@ namespace AngularDotNetProject.API.DTOs
         public string ImageURL { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [Phone]
+        //[Phone]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
